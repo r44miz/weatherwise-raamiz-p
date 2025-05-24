@@ -1,0 +1,22 @@
+Improving Visualisations
+
+Me: What methods can I use to enhance my temperature and precipitation charts and make them more appealing?
+
+
+
+ChatGPT:
+
+You can add a lot of value with small visual improvements:
+
+- Add titles like “🌡️ Temperature Forecast” or “🌧️ Rain Probability”
+- Use red/blue lines for max/min temps to make it intuitive
+- Add gridlines and axis labels for clarity
+- Set rain chance chart’s Y-axis from 0 to 100
+- Show a “Generating chart...” message before rendering
+
+Example tweaks:
+
+ax.set_title("🌡️ Temperature Forecast")
+ax.plot(dates, max_temps, color='red')
+ax.plot(dates, min_temps, color='blue')
+ax.grid(True)

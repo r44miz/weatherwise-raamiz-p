@@ -1,0 +1,104 @@
+The is the old code
+
+def menu():
+    while True:
+        print("\n🌤️ Welcome to WeatherWise 🌤️")
+        choice = pyip.inputMenu(['Check Weather', 'Ask a Question', 'Show Visualisations', 'Exit'],
+                                numbered=True)
+
+        if choice == 'Check Weather':
+            location = pyip.inputStr("Enter location: ")
+            data = get_weather_data(location)
+            if data:
+                print(generate_weather_response({"location": location, "attribute": "general"}, data))
+        elif choice == 'Ask a Question':
+            q = pyip.inputStr("Ask your weather question (e.g. Will it rain in Sydney?): ")
+            parsed = parse_weather_question(q)
+            if parsed['location']:
+                data = get_weather_data(parsed['location'])
+                if data:
+                    print(generate_weather_response(parsed, data))
+            else:
+                print("Couldn't parse location. Try again.")
+        elif choice == 'Show Visualisations':
+            location = pyip.inputStr("Enter location for graphs: ")
+            data = get_weather_data(location)
+            if data:
+                create_temperature_visualisation(data)
+                create_precipitation_visualisation(data)
+        else:
+            print("Goodbye!")
+            break
+
+This is the new improved code
+
+def menu():
+    print("\n🌤️  Welcome to WeatherWise: Your Intelligent Weather Companion! 🌤️")
+    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+    while True:
+        print("\n🔸 What would you like to do today?")
+        choice = pyip.inputMenu(
+            ['📍 Check Current Weather',
+             '🧠 Ask a Weather Question',
+             '📊 View Weather Visualisations',
+             '❌ Exit Application'],
+            numbered=True
+        )
+
+        if choice == '📍 Check Current Weather':
+            location = pyip.inputStr("\n🔎 Please enter a city or location: ").strip()
+            print("⏳ Retrieving weather data...")
+            data = get_weather_data(location)
+            if data:
+                print("\n✅ Weather Summary for", location.title())
+                print("──────────────────────────────────────────")
+                print(generate_weather_response({"location": location, "attribute": "general"}, data))
+            else:
+                print("⚠️  Unable to retrieve weather data. Please check the location or try again later.")
+
+        elif choice == '🧠 Ask a Weather Question':
+            question = pyip.inputStr("\n💬 Ask your question (e.g. Will it rain in Perth tomorrow?): ").strip()
+            parsed = parse_weather_question(question)
+            if parsed['location']:
+                print(f"🤖 Analyzing your question about {parsed['location'].title()}...")
+                data = get_weather_data(parsed['location'])
+                if data:
+                    print("\n🗨️  WeatherWise says:")
+                    print("──────────────────────")
+                    print(generate_weather_response(parsed, data))
+                else:
+                    print("⚠️  Sorry, I couldn't get data for that location.")
+            else:
+                print("❗ I couldn't detect the location. Try rephrasing your question.")
+
+        elif choice == '📊 View Weather Visualisations':
+            location = pyip.inputStr("\n📍 Enter the location for weather charts: ").strip()
+            print("📡 Gathering forecast data...")
+            data = get_weather_data(location)
+            if data:
+                print("\n📈 Temperature Forecast:")
+                create_temperature_visualisation(data)
+                print("\n🌧️ Rain Probability:")
+                create_precipitation_visualisation(data)
+            else:
+                print("⚠️  Unable to generate charts. Please try another location.")
+
+        else:  # ❌ Exit Application
+            print("\n👋 Thanks for using WeatherWise. Stay safe and weather-aware!")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            break
+
+
+Why is this code better :
+
+Why This Version Is Even More Enjoyable
+Smart Communication: Language should be easy to understand and presented in a friendly way.
+
+Tidiness is achieved by using divider lines and appropriate spacing between elements.
+
+Emojis located next to options in the menus and sections make things clearer for users.
+
+Information on screen: "Getting the data...", "Analyzing what you asked..." adds realism.
+
+Supportive Approach: Instead of saying things abruptly, the person takes time to explain the error.

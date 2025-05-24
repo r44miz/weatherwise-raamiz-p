@@ -1,0 +1,46 @@
+Best for production-quality apps or when more control is needed
+
+Me: Is there a way to enhance this function of mine so it can deal with errors more efficiently?
+
+
+
+ChatGPT:
+
+Choosing the Weather Data Source
+Improving get_weather_data()
+python
+def get_weather_data(location):
+    url = f"https://wttr.in/%7Blocation%7D?format=j1"
+    response = requests.get(url)
+    return response.json()
+That version works, but it's vulnerable. You should:
+
+✅ Validate input (empty or bad location)
+
+✅ Use a timeout to avoid hanging
+
+✅ Catch network/HTTP errors with try/except
+
+✅ Check if the returned JSON has the keys you need
+
+✅ Slice forecast data to the number of days requested
+
+Here's a safer version:
+
+def get_weather_data(location, forecast_days=3):
+    if not location or not isinstance(location, str):
+        print("Invalid location.")
+        return None
+    try:
+        url = f"https://wttr.in/%7Blocation%7D?format=j1"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if "weather" not in data:
+            print("Incomplete data received.")
+            return None
+        data["weather"] = data["weather"][:forecast_days]
+        return data
+    except Exception as e:
+        print("Error fetching data:", e)
+        return None

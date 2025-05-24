@@ -1,0 +1,27 @@
+Improving the Menu UI
+
+Me: Is it possible to make my weather app’s command-line menu appear nicer and friendlier?
+Great question! Try these improvements:
+
+
+ChatGPT:
+
+Add emoji icons to each menu item
+
+Use spacing and lines to visually separate sections
+
+Use action-oriented labels like “Check Current Weather”
+
+Add loading indicators like “Fetching data...”
+
+Use capitalized, descriptive prompts
+
+Example:
+
+print("\n🌤️ Welcome to WeatherWise 🌤️")
+choice = pyip.inputMenu([
+    '📍 Check Current Weather',
+    '🧠 Ask a Weather Question',
+    '📊 View Visualisations',
+    '❌ Exit Application'], numbered=True)
+Also consider giving user feedback before/after API calls.

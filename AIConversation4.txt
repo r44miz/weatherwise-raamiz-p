@@ -1,0 +1,26 @@
+Improving the Question Parser
+
+Me: How could we make the current parser react correctly to more natural language?
+
+
+ChatGPT:
+
+def parse_weather_question:
+    question = question.lower()
+    parsed = {"location": None, "attribute": None}
+    match = re.search(r'in ([a-zA-Z\s]+)', question)
+    if match:
+        parsed["location"] = match.group(1).strip()
+    if 'rain' in question:
+        parsed["attribute"] = 'rain'
+    elif 'temperature' in question:
+        parsed["attribute"] = 'temperature'
+    else:
+        parsed["attribute"] = 'general'
+    return parsed
+
+- You're off to a good start, but here’s how to improve:
+- Your regex only works for “in [city]” but not “for [city]” or “[city] weather”
+- Add fallback attribute detection: hot, cold, forecast, sunny
+- Consider using NLP tools like spaCy if you want to extract locations more reliably
+- Add logging or debugging info when no location is found

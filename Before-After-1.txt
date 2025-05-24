@@ -1,0 +1,79 @@
+
+
+This is the old code
+
+
+
+def get_weather_data(location, forecast_days=3):
+    """
+    Retrieve weather data from wttr.in for a specified location.
+
+    Args:
+        location (str): City or location name
+        forecast_days (int): Number of forecast days (1–5)
+
+    Returns:
+        dict: Weather data including current conditions and forecast
+    """
+    try:
+        url = f"https://wttr.in/{location}?format=j1"
+        response = requests.get(url)
+        data = response.json()
+        return data
+    except Exception as e:
+        print(f"Error fetching weather data: {e}")
+        return None
+
+This is the New Improved Code
+
+import requests
+
+def get_weather_data(location, forecast_days=3):
+    """
+    Retrieve weather data from wttr.in for a specified location.
+
+    Args:
+        location (str): City or location name
+        forecast_days (int): Number of forecast days (1–5)
+
+    Returns:
+        dict or None: Parsed weather data or None if an error occurs
+    """
+    if not location or not isinstance(location, str):
+        print("❌ Invalid location. Please enter a valid city or place name.")
+        return None
+
+    if not (1 <= forecast_days <= 5):
+        print("⚠️ Forecast days must be between 1 and 5. Defaulting to 3.")
+        forecast_days = 3
+
+    try:
+        url = f"https://wttr.in/{location}?format=j1"
+        response = requests.get(url, timeout=10)  # ⏱️ Add timeout for safety
+        response.raise_for_status()  # 🚨 Raise exception for HTTP errors
+
+        data = response.json()
+
+        # ✅ Validate basic structure
+        if "current_condition" not in data or "weather" not in data:
+            print("⚠️ Incomplete weather data received.")
+            return None
+
+        # Limit forecast to the number of days requested
+        data["weather"] = data["weather"][:forecast_days]
+        return data
+
+    except requests.exceptions.RequestException as req_err:
+        print(f"🔌 Network error: {req_err}")
+    except ValueError:
+        print("❌ Failed to decode JSON from wttr.in.")
+    except Exception as e:
+        print(f"⚠️ Unexpected error: {e}")
+
+    return None
+
+
+
+Why is this text better:
+
+The improved version of the get_weather_data() function is better because it makes the application more robust, user-friendly, and reliable, especially in real-world scenarios where input errors, network issues, or incomplete API responses are common. By adding input validation, the function ensures that users provide meaningful and valid values for the location and forecast days, reducing the chance of errors and improving the overall user experience. Including a timeout in the API request prevents the application from freezing if the server is slow, which is essential for maintaining responsiveness. The use of raise_for_status() allows the function to catch and report specific HTTP errors like 404 (not found) or 503 (service unavailable), rather than silently failing or crashing. Additionally, checking that the required keys ("current_condition" and "weather") are present in the response helps detect cases where the API returns unexpected or partial data, enabling clearer error messages. Trimming the forecast data to match the number of days requested also ensures that the function behaves as expected and avoids unnecessary processing. Overall, these enhancements improve code quality by making it safer, more predictable, and easier to debug—key qualities for any professional or academic software project.

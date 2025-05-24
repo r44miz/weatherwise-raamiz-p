@@ -1,0 +1,32 @@
+What i Wrote:
+
+What advantages and disadvantages does wttr.in have, compared to OpenWeatherMap and the fetch-my-weather package, when getting weather information in a Python app?
+fetch-my-weather:
+
+
+ChatGPT:
+
+✅ Easiest setup
+
+❌ Limited flexibility
+
+Ideal for quick development or students focusing on app features
+
+wttr.in (direct JSON):
+
+✅ No API key required
+
+✅ More control than fetch-my-weather
+
+❌ Less data richness than OpenWeatherMap
+
+A good balance of simplicity and flexibility
+
+OpenWeatherMap:
+
+✅ Most comprehensive data
+
+❌ Requires API key
+
+❌ Requires more error handling
+

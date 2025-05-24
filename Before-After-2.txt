@@ -1,0 +1,163 @@
+
+This is the old Code 
+
+
+def create_temperature_visualisation(weather_data, output_type='display'):
+    """
+    Visualize temperature trends over the forecast period.
+
+    Args:
+        weather_data (dict): Processed weather data from wttr.in
+        output_type (str): 'display' or 'figure'
+
+    Returns:
+        matplotlib figure or display plot
+    """
+    try:
+        days = weather_data['weather']
+        dates = [day['date'] for day in days]
+        max_temps = [int(day['maxtempC']) for day in days]
+        min_temps = [int(day['mintempC']) for day in days]
+
+        fig, ax = plt.subplots()
+        ax.plot(dates, max_temps, label='Max Temp (°C)', marker='o')
+        ax.plot(dates, min_temps, label='Min Temp (°C)', marker='o')
+        ax.set_title("Temperature Forecast")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Temperature (°C)")
+        ax.legend()
+        if output_type == 'display':
+            plt.show()
+        else:
+            return fig
+    except Exception as e:
+        print("Error generating temperature plot:", e)
+
+def create_precipitation_visualisation(weather_data, output_type='display'):
+    """
+    Visualize precipitation chances over the forecast period.
+
+    Args:
+        weather_data (dict): Processed weather data
+        output_type (str): 'display' or 'figure'
+
+    Returns:
+        matplotlib figure or display plot
+    """
+    try:
+        days = weather_data['weather']
+        dates = [day['date'] for day in days]
+        chances = [int(day['hourly'][0]['chanceofrain']) for day in days]
+
+        fig, ax = plt.subplots()
+        sns.barplot(x=dates, y=chances, ax=ax)
+        ax.set_title("Chance of Rain (%)")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Chance of Rain")
+        if output_type == 'display':
+            plt.show()
+        else:
+            return fig
+    except Exception as e:
+        print("Error generating precipitation plot:", e)
+
+
+
+
+This is the new improved Code 
+
+
+
+
+def create_temperature_visualisation(weather_data, output_type='display'):
+    """
+    Create a line plot of max and min temperatures over the forecast period.
+
+    Args:
+        weather_data (dict): Processed weather data from wttr.in
+        output_type (str): 'display' or 'figure'
+
+    Returns:
+        matplotlib figure object or displays the figure
+    """
+    try:
+        if not weather_data or 'weather' not in weather_data:
+            raise ValueError("Invalid or missing weather data.")
+
+        dates = []
+        max_temps = []
+        min_temps = []
+
+        for day in weather_data['weather']:
+            if 'date' in day and 'maxtempC' in day and 'mintempC' in day:
+                dates.append(day['date'])
+                max_temps.append(int(day['maxtempC']))
+                min_temps.append(int(day['mintempC']))
+
+        if not dates:
+            raise ValueError("No valid temperature data found.")
+
+        fig, ax = plt.subplots()
+        ax.plot(dates, max_temps, label='Max Temp (°C)', marker='o', color='red')
+        ax.plot(dates, min_temps, label='Min Temp (°C)', marker='o', color='blue')
+        ax.set_title("📈 Temperature Forecast")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Temperature (°C)")
+        ax.legend()
+        ax.grid(True)
+
+        if output_type == 'display':
+            plt.show()
+        else:
+            return fig
+
+    except Exception as e:
+        print(f"❌ Error generating temperature visualisation: {e}")
+
+
+def create_precipitation_visualisation(weather_data, output_type='display'):
+    """
+    Create a bar chart of chance of rain over the forecast period.
+
+    Args:
+        weather_data (dict): Processed weather data from wttr.in
+        output_type (str): 'display' or 'figure'
+
+    Returns:
+        matplotlib figure object or displays the figure
+    """
+    try:
+        if not weather_data or 'weather' not in weather_data:
+            raise ValueError("Invalid or missing weather data.")
+
+        dates = []
+        rain_chances = []
+
+        for day in weather_data['weather']:
+            if 'date' in day and 'hourly' in day and 'chanceofrain' in day['hourly'][0]:
+                dates.append(day['date'])
+                rain_chances.append(int(day['hourly'][0]['chanceofrain']))
+
+        if not dates:
+            raise ValueError("No valid precipitation data found.")
+
+        fig, ax = plt.subplots()
+        sns.barplot(x=dates, y=rain_chances, ax=ax, palette='Blues_d')
+        ax.set_title("🌧️ Chance of Rain (%)")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Chance of Rain")
+        ax.set_ylim(0, 100)
+        ax.grid(True, linestyle='--', alpha=0.6)
+
+        if output_type == 'display':
+            plt.show()
+        else:
+            return fig
+
+    except Exception as e:
+        print(f"❌ Error generating precipitation visualisation: {e}")
+
+Why this new improved code is better than the old one
+
+In revising the create_temperature_visualisation() and create_precipitation_visualisation() functions, I focused on making the code more robust, readable, and user-friendly. I added explicit input validation to ensure that the weather_data dictionary contains the expected keys before attempting to access nested values. This prevents the functions from crashing when given incomplete or malformed data, which is especially important when working with live APIs that can sometimes return unexpected results. I also introduced in-loop checks for each forecast day to filter out missing or corrupted entries, making the code more tolerant to partial datasets. Visually, I improved the clarity of the plots by adding color differentiation, grid lines, and axis limits where appropriate, which enhances the presentation and readability of the graphs. These changes not only ensure that the application performs reliably under various conditions but also make the visual output more informative and professional—both of which are important for the user experience and for meeting the assignment’s emphasis on quality, modularity, and error handling.
+
